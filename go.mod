@@ -1,4 +1,4 @@
-module github.com/codyps/caddy_fs_archives
+module github.com/codyps/caddy-fs-archives
 
 go 1.26.3
 

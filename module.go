@@ -1,5 +1,4 @@
-// Package caddyfss3 implements a Caddy virtual filesystem module for AWS S3 (and compatible) object store.
-package caddyfss3
+package caddyfsarchives
 
 import (
 	"io/fs"
@@ -19,7 +18,7 @@ var (
 	_ caddyfile.Unmarshaler = (*FS)(nil)
 )
 
-// FS is a Caddy virtual filesystem module for AWS S3 (and compatible) object store.
+// FS is a Caddy virtual filesystem module for handling archive files.
 type FS struct {
 	fs.StatFS `json:"-"`
 

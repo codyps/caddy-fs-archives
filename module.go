@@ -12,7 +12,6 @@ func init() {
 	caddy.RegisterModule(FS{})
 }
 
-// Interface guards
 var (
 	_ fs.StatFS             = (*FS)(nil)
 	_ caddyfile.Unmarshaler = (*FS)(nil)
@@ -26,7 +25,6 @@ type FS struct {
 	RootPath string `json:"root_path,omitempty"`
 }
 
-// CaddyModule returns the Caddy module information.
 func (FS) CaddyModule() caddy.ModuleInfo {
 	return caddy.ModuleInfo{
 		ID:  "caddy.fs.archives",
@@ -34,7 +32,6 @@ func (FS) CaddyModule() caddy.ModuleInfo {
 	}
 }
 
-// Provision implements the [caddy.Provisioner] interface.
 func (fs *FS) Provision(ctx caddy.Context) error {
 	fs.StatFS = &archives.DeepFS{
 		Root:    fs.RootPath,
@@ -44,7 +41,6 @@ func (fs *FS) Provision(ctx caddy.Context) error {
 	return nil
 }
 
-// UnmarshalCaddyfile unmarshals a caddyfile.
 func (fs *FS) UnmarshalCaddyfile(d *caddyfile.Dispenser) error {
 	if !d.Next() { // skip block beginning
 		return d.ArgErr()

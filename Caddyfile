@@ -1,5 +1,15 @@
+{
+    # "my_files" is a name you pick for this filesystem.
+    # "archives" is the type of filesystem, which corresponds to the module name "caddy.fs.archives".
+    filesystem my_files archives {
+        # path to the root of the filesystem. This is where Caddy will look for files to serve.
+        root /srv/data
+    }
+}
+
 localhost:8080 {
     file_server browse {
-        fs archives
+        # "my_files" is the name of the filesystem we defined above.
+        fs my_files
     }
 }

@@ -1,7 +1,8 @@
 ARG version=2.11.2
 FROM caddy:${version}-builder-alpine AS builder
 
-RUN xcaddy build --with github.com/codyps/caddy-fs-archives
+RUN --mount=type=bind,source=.,target=/caddy-fs-archives \
+     xcaddy build --with github.com/codyps/caddy-fs-archives=/caddy-fs-archives
 
 FROM caddy:${version}
 

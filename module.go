@@ -22,7 +22,7 @@ var (
 type FS struct {
 	fs.StatFS `json:"-"`
 
-	RootPath string `json:"root_path,omitempty"`
+	Root string `json:"root_path,omitempty"`
 }
 
 func (FS) CaddyModule() caddy.ModuleInfo {
@@ -34,7 +34,7 @@ func (FS) CaddyModule() caddy.ModuleInfo {
 
 func (fs *FS) Provision(ctx caddy.Context) error {
 	fs.StatFS = &archives.DeepFS{
-		Root:    fs.RootPath,
+		Root:    fs.Root,
 		Context: ctx,
 	}
 
@@ -49,7 +49,7 @@ func (fs *FS) UnmarshalCaddyfile(d *caddyfile.Dispenser) error {
 	for nesting := d.Nesting(); d.NextBlock(nesting); {
 		switch d.Val() {
 		case "root":
-			if !d.AllArgs(&fs.RootPath) {
+			if !d.AllArgs(&fs.Root) {
 				return d.ArgErr()
 			}
 		default:

@@ -3,6 +3,7 @@ name: CI
 on:
   push:
     branches: ["**"]
+    tags: ["**"]
   pull_request:
     branches: ["**"]
 
@@ -21,3 +22,10 @@ jobs:
         run: go vet ./...
       - name: Test
         run: go test ./...
+      - name: Publish module to the public Go proxy
+        if: github.event_name == 'push'
+        env:
+          MODULE_VERSION: ${{ github.ref_type == 'tag' && github.ref_name || github.sha }}
+        run: |
+          module_path="$(go list -m)"
+          GOPROXY=https://proxy.golang.org go mod download "${module_path}@${MODULE_VERSION}"

@@ -23,7 +23,27 @@ var (
 )
 
 // FS is a Caddy virtual filesystem module for handling archive files.
+//
+// ## Caddyfile example
+//
+// ```caddy
+//
+//	{
+//		filesystem archive_files archives {
+//			root /srv/data
+//		}
+//	}
+//
+//	example.com {
+//		file_server browse {
+//			fs archive_files
+//		}
+//	}
+//
+// ```
 type FS struct {
+	// Root is the path to the directory containing the archives and other files
+	// exposed by this filesystem. If empty, the current working directory is used.
 	Root string `json:"root_path,omitempty"`
 
 	deep *archives.DeepFS
@@ -234,6 +254,11 @@ func (file *seekableFile) positionUnderlyingFile() error {
 	return nil
 }
 
+// UnmarshalCaddyfile implements caddyfile.Unmarshaler. Syntax:
+//
+//	archives {
+//		root <path>
+//	}
 func (fs *FS) UnmarshalCaddyfile(d *caddyfile.Dispenser) error {
 	if !d.Next() { // skip block beginning
 		return d.ArgErr()
